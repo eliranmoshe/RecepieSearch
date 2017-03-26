@@ -11,11 +11,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -52,6 +55,19 @@ public class SearchFragment extends Fragment {
                 getActivity().startService(intent);
             }
         });
+       RecepieET.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+           @Override
+           public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+               if (i==EditorInfo.IME_ACTION_SEARCH)
+               {
+                   String RecepieSrchName=RecepieET.getText().toString();
+                   Intent intent=new Intent(getActivity(),DownloadService.class);
+                   intent.putExtra("recepiename",RecepieSrchName);
+                   getActivity().startService(intent);
+               }
+               return false;
+           }
+       });
         fragIntrFace= (FragIntrFace) getActivity();
 
 
